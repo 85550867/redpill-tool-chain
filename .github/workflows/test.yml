@@ -24,8 +24,8 @@ jobs:
       matrix:
         include:
           #  两行一组，删除不需要的版本
-          - platform: ds918p
-            version: 7.0.1-42218
+          - platform: ds920p
+            version: 7.1.0-42661
 
     steps:
       - name: 检出项目文件
@@ -61,10 +61,10 @@ jobs:
 
           # 调整SN和MAC,最好使用 actions secrets 引入,SN应该是固定值不应该每次生成
           sn=`./redpill_tool_chain.sh sn ${{matrix.platform}} | grep 'Serial Number' | awk '{print $3}'`
-          sed -i -e "s/1234XXX123/${sn:="DGPH3JE6U4EAQ"}/g" -e 's/XXYYXXYYXXYY/0211321ADBC9/g' ${{matrix.platform}}_user_config.json
+          sed -i -e "s/1234XXX123/${sn:="2030SBRP5JPCQ"}/g" -e 's/XXYYXXYYXXYY/001132C6CBDD/g' ${{matrix.platform}}_user_config.json
 
           # 添加第二张网卡mac并设置网卡数量
-          sed -i -e 's/0011323D47F7"/&,\n\t"mac2": "0011323D47F8",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
+          sed -i -e 's/0011323D47F7"/&,\n\t"mac2": "001132C6CBDE",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
 
           # 调整synoinfo
           sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2"\n    },/' ${{matrix.platform}}_user_config.json
